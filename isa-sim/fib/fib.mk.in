@@ -1,0 +1,12 @@
+fib_subproject_deps = \
+	riscv \
+
+fib_install_prog_srcs = \
+
+fib_hdrs = \
+	fib.h \
+
+fib_srcs = \
+	fib.cc \
+
+fib_test_srcs =
