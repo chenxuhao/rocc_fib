@@ -2,7 +2,7 @@
 #see LICENSE for license
 
 cd ../ && ln -s rocc_fib fib
-mv Makefrag Makefrag.old && ln -s fib/config/Makefrag Makefrag
+#mv Makefrag Makefrag.old && ln -s fib/config/Makefrag Makefrag
 cd riscv-tools/riscv-isa-sim && ln -s ../../fib/isa-sim/fib fib
 mv configure.ac configure.ac.old && ln -s ../../fib/isa-sim/configure.ac && ln -s ../../fib/isa-sim/riscv-fib.pc.in riscv-fib.pc.in
-cd ../../src/main/scala && ln -s ../../../fib/config/PrivateConfigs.scala PrivateConfigs.scala
+cd ../../src/main/scala && ln -s ../../../fib/src/main/scala/config/Configs.scala Configs.scala

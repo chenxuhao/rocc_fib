@@ -5,11 +5,13 @@ If cloned into rocket-chip directory use
 
     ./install-symlinks
 
+You can build the emulator using
+
+    cd ../emulator && make ROCKETCHIP_ADDONS=fib CONFIG=FibAccelConfig
+
 You can then test it using the emulator
 
-    cd ../emulator && make CONFIG=FibAccelConfig run-asm-tests
-or
-    cd ../emulator && make ROCKETCHIP_ADDONS=fib CONFIG=FibAccelConfig run-asm-tests
+    make run-asm-tests
 
 You can emulate the software implementation of fib by running
 
