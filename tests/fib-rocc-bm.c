@@ -8,9 +8,14 @@
 
 int main() {
   do {
-    unsigned int ilen = 1;
-    unsigned char input[1] = "0";
-    unsigned char output[1];
+    unsigned int len = 33;
+    unsigned int output = 0;
+    int fib[70];
+    fib[0] = 0; fib[1] = 1;
+    for(int i = 2; i < 70; i++) {
+        fib[i] = fib[i-1] + fib[i-2];
+    }
+
     asm volatile ("fence");
     // setup accelerator with addresses of input and output
     //              opcode rd rs1          rs2          funct   
@@ -18,10 +23,8 @@ int main() {
 
     // Set length and compute hash
     //              opcode rd rs1      rs2 funct   
-    //asm volatile ("custom0 0, %[length], 0, 1" : : [length]"r"(ilen));
+    asm volatile ("custom0 0, %[length], 0, 0" : : [length]"r"(len));
     asm volatile ("fence");
-    int i = 0;
-    unsigned char result[1] = {221};
   } while(0);
   return 0;
 }

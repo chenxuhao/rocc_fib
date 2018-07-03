@@ -3,27 +3,24 @@
 // functionality of the fib RoCC accelerator.
 // Compile with riscv-gcc fib-sw.c
 // Run with spike --extension=fib pk a.out
-#include <assert.h>
-#include <stdio.h>
-#include <stdint.h>
-//#include "fib.h"
+#include "fib.h"
 
 int main() {
   do {
     printf("start basic test 1.\n");
-    // Setup some test data
-    unsigned int ilen = 1;
-    unsigned char output[1];
-    //compute hash
-    //fib(input, ilen, output);
-    // Check result
-    int i = 0;
-    unsigned char result[1];
-    //fib(input, ilen, result);
-    for(i = 0; i < 1; i++){
-      printf("output[%d]:%d ==? results[%d]:%d \n",i,output[i],i,result[i]);
-     assert(output[i]==result[i]);
+    unsigned int len = 33;
+    unsigned int output = 0;
+    unsigned int fib[MAX];
+    fib[0] = 0; fib[1] = 1;
+    for(int i = 2; i < MAX; i++) {
+        fib[i] = fib[i-1] + fib[i-2];
     }
+
+    solve_fib(len, &output);
+
+    // Check result
+    if(fib[len-1] == output) printf("correct\n");
+    else printf("wrong\n");
   } while(0);
   printf("success!\n");
   return 0;
