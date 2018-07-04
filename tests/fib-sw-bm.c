@@ -11,5 +11,6 @@ int main() {
     unsigned int output = 0;
     solve_fib(len, &output);
   } while(0);
+  printf("success!\n");
   return 0;
 }
