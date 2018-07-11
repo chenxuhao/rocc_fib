@@ -4,7 +4,7 @@ libdir=${prefix}/@libdir@
 includedir=${prefix}/@includedir@
 
 Name: riscv-fib
-Description: Fib
+Description: Fib ROCC accelerator
 Version: git
 Libs: -Wl,-rpath,${libdir} -L${libdir} -ldummy_rocc
 Cflags: -I${includedir}

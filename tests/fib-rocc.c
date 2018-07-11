@@ -1,7 +1,7 @@
 //see LICENSE for license
 // The following is a RISC-V program to test the 
 // functionality of the fib RoCC accelerator.
-// Compile with riscv-gcc fib-rocc.c
+// Compile with riscv64-unknown-elf-gcc fib-rocc.c -o fib-rocc.rv
 // Run with spike --extension=fib pk a.out
 
 #include <assert.h>
@@ -10,9 +10,7 @@
 #include "fib.h"
 
 int main() {
-
   do {
-    printf("start basic test 1.\n");
     unsigned int len = 33;
     unsigned int output = 0;
     unsigned int temp = 0;
@@ -22,17 +20,20 @@ int main() {
         fib[i] = fib[i-1] + fib[i-2];
     }
 
-    // Invoke the acclerator and check responses
-	asm volatile ("fence");
-	// load len into FibAccelerator 2 (funct=0)
-	//asm volatile ("custom0 x0, %0, 2, 0" : : "r"(len));
-	CUSTOMX_R_R_R(0, temp, len, 2, 0);
-	// read it back into ouput (funct=1) to verify it
-	//asm volatile ("custom0 %0, x0, 2, 1" : "=r"(output));
-	//CUSTOMX_R_R_R(0, output, temp, 2, 1);
+	// Invoke the acclerator and check responses
+	uint16_t addr = 1;
+	printf("[INFO] Launch Fib with length=%d\n", len);
+	doFib(temp, addr, len);
+
+	printf("[INFO] Read the sequence of Fibonacci numbers\n");
+	for (int i = 0; i < len; i ++) {
+		doRead(temp, i);
+		printf("[INFO] Fib[%d] = %d (expected %d)\n", i, temp, fib[i]);
+	}
+	output = temp;
 	
-    asm volatile ("fence");
     // Check result
+    printf("check.\n");
     if(fib[len-1] == output) printf("correct\n");
     else printf("wrong\n");
   } while(0);

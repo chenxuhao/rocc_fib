@@ -1,30 +1,26 @@
-// see LICENSE for license
+//see LICENSE for license
 // The following is a RISC-V program to test the 
 // functionality of the fib RoCC accelerator.
-// Compile with riscv-gcc fib-rocc.c
+// Compile with riscv64-unknown-elf-gcc fib-rocc.c -o fib-rocc.rv
 // Run with spike --extension=fib pk a.out
+
+#include <assert.h>
+#include <stdio.h>
 #include <stdint.h>
-//#include "fib.h"
+#include "fib.h"
 
 int main() {
   do {
     unsigned int len = 33;
     unsigned int output = 0;
-    int fib[70];
-    fib[0] = 0; fib[1] = 1;
-    for(int i = 2; i < 70; i++) {
-        fib[i] = fib[i-1] + fib[i-2];
-    }
+    unsigned int temp = 0;
+	uint16_t addr = 1;
+	doFib(temp, addr, len);
 
-    asm volatile ("fence");
-    // setup accelerator with addresses of input and output
-    //              opcode rd rs1          rs2          funct   
-    //asm volatile ("custom0 0, %[msg_addr], %[hash_addr], 0" : : [msg_addr]"r"(&input), [hash_addr]"r"(&output));
-
-    // Set length and compute hash
-    //              opcode rd rs1      rs2 funct   
-    asm volatile ("custom0 0, %[length], 0, 0" : : [length]"r"(len));
-    asm volatile ("fence");
+	for (int i = 0; i < len; i ++) {
+		doRead(temp, i);
+	}
+	output = temp;
   } while(0);
   return 0;
 }
